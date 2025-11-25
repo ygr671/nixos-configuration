@@ -1,0 +1,7 @@
+# Ignore backup files
+*.backup
+
+# pycache
+qtile/__pycache__/
+qtile/widgets/__pycache__/
+

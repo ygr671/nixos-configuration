@@ -1,0 +1,107 @@
+{ config, pkgs, ... }:
+
+{
+  
+  home.username = "yzd";
+  home.homeDirectory = "/home/yzd";
+  home.stateVersion = "25.05";
+
+  # User packages
+  home.packages = with pkgs; [
+    bat
+    tree     
+    discord
+    fastfetch
+    flameshot # Screenshot tool
+    vscodium
+    jetbrains.idea-community
+    godotPackages_4_5.godot
+    sqlitebrowser
+    graphviz-nox
+    prismlauncher
+    # Neovim dependencies
+    nil
+    nixpkgs-fmt
+    nodejs
+  ];
+  
+  # Bash
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      check-net = "ping 1.1.1.1";
+      nrs = "sudo nixos-rebuild switch --flake";
+      # sudo nixos-rebuild switch --flake ~/nixos-dotfiles#zenith
+      cleanup-generations = "sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +3";
+    };
+
+    initExtra = ''
+      export PS1='\[\e[92m\]\u\[\e[0m\] in \[\e[38;5;27m\]\w\[\e[0m\] \\$ '
+    '';
+  };
+  
+  # Alacritty
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window.opacity = 0.9;
+  font.normal = {
+        family = "JetBrains Mono Nerd Font";
+	style = "Regular";
+      };
+      font.size = 9;
+    };
+  };
+  
+  # Bat
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "Nord";
+      style = "numbers,changes,grid";
+      paging = "auto";
+    };
+  };
+  
+  # Qtile
+  home.file.".config/qtile" = {
+    source = ./dotfiles/qtile;
+    recursive = true;
+  };
+
+  # Neovim
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    
+    extraLuaConfig = ''
+      vim.g.mapleader = " "
+      vim.g.maplocalleader = " "
+      
+      vim.opt.number = true
+      vim.opt.relativenumber = true
+
+      vim.cmd("colorscheme industry")
+      
+      vim.opt.tabstop = 2
+      vim.opt.shiftwidth = 2 
+      vim.opt.smartindent = true
+      
+      vim.opt.ignorecase = true
+      vim.opt.smartcase = true
+      vim.opt.hlsearch = true
+      vim.opt.incsearch = true
+      vim.opt.cursorline = true
+      vim.opt.wrap = false
+      vim.opt.scrolloff = 8
+      vim.opt.updatetime = 200
+      
+      vim.opt.clipboard = "unnamedplus"
+    '';
+    
+    plugins = with pkgs.vimPlugins; [
+    ];   
+  };
+
+}
