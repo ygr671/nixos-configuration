@@ -23,6 +23,8 @@
     nil
     nixpkgs-fmt
     nodejs
+    # Look and feel
+    xdotool
   ];
   
   # Bash
@@ -31,7 +33,6 @@
     shellAliases = {
       check-net = "ping 1.1.1.1";
       nrs = "sudo nixos-rebuild switch --flake";
-      # sudo nixos-rebuild switch --flake ~/nixos-dotfiles#zenith
       cleanup-generations = "sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +3";
     };
 
@@ -65,7 +66,7 @@
   
   # Qtile
   home.file.".config/qtile" = {
-    source = ./dotfiles/qtile;
+    source = ./modules/dotfiles/qtile;
     recursive = true;
   };
 

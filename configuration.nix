@@ -35,6 +35,9 @@
     font = "Lat2-Terminus16";
     useXkbConfig = true; # use xkb.options in tty.
   };
+  
+  # Wallpaper
+  environment.etc."wallpapers/red-moon.png".source = ./data/wallpapers/red-moon.png;
 
   services.displayManager.ly.enable = true;
   services.xserver = {
@@ -45,7 +48,7 @@
     autoRepeatDelay = 200;
     autoRepeatInterval = 35;
     displayManager.sessionCommands = ''
-      xwallpaper --zoom "$HOME/Téléchargements/wallpapers/red-moon.png"
+      xwallpaper --zoom /etc/wallpapers/red-moon.png 
       # Screen saver
       xset s 300 300
       # Sleeping
@@ -157,7 +160,7 @@
   programs.ssh.startAgent = true;
 
   # VPN configuration
-  environment.etc."openfortivpn".source = ./services/openfortivpn;
+  environment.etc."openfortivpn".source = ./modules/services/openfortivpn;
   
   # Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

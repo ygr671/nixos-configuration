@@ -147,6 +147,17 @@ keys = [
     # Key([], "F4", lazy.function(keyboard_backlight), desc="Keyboard backlight"),
     Key([], "F5", lazy.spawn("brightnessctl set 1%-"), desc="Brightness down"),
     Key([], "F6", lazy.spawn("brightnessctl set +1%"), desc="Brightness up"),
+    # Mouse controls
+    Key([mod], "Up", lazy.spawn("xdotool mousemove_relative -- 0 -10")),
+    Key([mod], "Down", lazy.spawn("xdotool mousemove_relative -- 0 10")),
+    Key([mod], "Left", lazy.spawn("xdotool mousemove_relative -- -10 0")),
+    Key([mod], "Right", lazy.spawn("xdotool mousemove_relative -- 10 0")),
+    # Clicks
+    Key([mod], "semicolon", lazy.spawn("xdotool click 1")),  # Left-click
+    Key([mod], "exclam", lazy.spawn("xdotool click 3")),  # Right-click
+    # Scroll
+    Key([mod], "Page_Up", lazy.spawn("xdotool click 4")),
+    Key([mod], "Page_Down", lazy.spawn("xdotool click 5")),
 ]
 
 # Add key bindings to switch VTs in Wayland.
