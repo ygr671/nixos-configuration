@@ -11,6 +11,7 @@
     bat
     tree     
     discord
+    vesktop
     fastfetch
     flameshot # Screenshot tool
     vscodium
@@ -102,6 +103,7 @@
     '';
     
     plugins = with pkgs.vimPlugins; [
+      vim-be-good
     ];   
   };
 
