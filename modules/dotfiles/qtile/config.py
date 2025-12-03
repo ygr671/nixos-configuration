@@ -138,6 +138,7 @@ keys = [
     Key([mod], "f", lazy.spawn("pcmanfm"), desc="Spawn file manager"),
     Key([mod], "d", lazy.spawn("rofi -show drun"), desc="Spawn app launcher"),
     Key([mod], "s", lazy.spawn("flameshot gui"), desc="Spawn screenshot app"),
+    Key([mod], "e", lazy.spawn("emacs"), desc="Spawn Emacs"),
     # OLED care bindings
     Key([mod], "p", lazy.hide_show_bar("all"), desc="Hide hotbar"),
     # Function keys bindings

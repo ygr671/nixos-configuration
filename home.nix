@@ -10,7 +10,6 @@
   home.packages = with pkgs; [
     bat
     tree     
-    discord
     vesktop
     fastfetch
     flameshot # Screenshot tool
