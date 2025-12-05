@@ -25,6 +25,8 @@
     nodejs
     # Look and feel
     xdotool
+    # GPG
+    gnupg
   ];
   
   # Bash
@@ -106,4 +108,36 @@
     ];   
   };
 
-}
+  /*
+  services.redshift = {
+    enable = true;
+  
+    # Display temperature settings
+    temperature = {
+      day = 5700;
+      night = 3500;
+    };
+  
+    # Schedule settings
+    dawnTime = "6:00-7:45";
+    duskTime = "18:00-05:00";
+  
+    # General settings
+    brightness = {
+      day = "1";
+      night = "1";
+    };
+  
+    extraOptions = [
+      "-v"
+      "-m randr"
+    ];
+
+    tray = true;
+  };
+
+  services.geoclue2.enable = true;
+  location.provider = "geoclue2";
+  */
+
+};
