@@ -95,6 +95,7 @@
     meld # Diff and merge tool
     xwallpaper # Wallpaper tool
     pcmanfm # File manager
+    gvfs # Network assisted storage
     rofi # App launcher
     pfetch 
     tmux # Terminal multiplexer
@@ -113,6 +114,7 @@
     fzf
     luajit
     valgrind
+    llvmPackages.libcxxStdenv
     # Neovim
     tree-sitter
     tree-sitter-grammars.tree-sitter-c
@@ -132,6 +134,7 @@
     openfortivpn
     # Bluetooth
     bluetui
+    unzip
   ];
 
   # Fonts
@@ -158,10 +161,13 @@
   services.openssh.enable = true;
   services.openssh.startWhenNeeded = true;
 
+  services.gnome.gcr-ssh-agent.enable = false;
   programs.ssh.startAgent = true;
-
   # VPN configuration
   environment.etc."openfortivpn".source = ./modules/services/openfortivpn;
+
+  # gvfs service
+  services.gvfs.enable = true;
   
   # Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -207,7 +213,7 @@
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 
 }
 

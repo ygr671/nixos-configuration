@@ -27,6 +27,13 @@
     xdotool
     # GPG
     gnupg
+    # Wallets
+    feather
+    # Messaging clients
+    session-desktop
+    simplex-chat-desktop
+    # Emacs stuff
+    emacsPackages.vterm
   ];
   
   # Bash
@@ -140,4 +147,10 @@
   location.provider = "geoclue2";
   */
 
-};
+  # Rofi
+  programs.rofi = {
+    enable = true;
+    theme = "Arc-Dark";
+  };
+
+}
