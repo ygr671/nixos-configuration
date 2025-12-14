@@ -134,7 +134,7 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     # Apps key bindings
-    Key([mod], "b", lazy.spawn("firefox"), desc="Spawn Firefox"),
+    Key([mod], "b", lazy.spawn("firefox --new-window"), desc="Spawn Firefox"),
     Key([mod], "f", lazy.spawn("pcmanfm"), desc="Spawn file manager"),
     Key([mod], "d", lazy.spawn("rofi -show drun"), desc="Spawn app launcher"),
     Key([mod], "s", lazy.spawn("flameshot gui"), desc="Spawn screenshot app"),

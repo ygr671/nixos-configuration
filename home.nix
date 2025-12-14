@@ -34,7 +34,12 @@
     simplex-chat-desktop
     # Emacs stuff
     emacsPackages.vterm
-  ];
+    # Password manager
+    keepassxc
+    # Libreoffice
+    libreoffice
+    # LSPs
+ ];
   
   # Bash
   programs.bash = {
