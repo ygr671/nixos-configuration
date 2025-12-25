@@ -42,7 +42,12 @@
   services.displayManager.ly.enable = true;
   services.xserver = {
     enable = true;
-    windowManager.qtile.enable = true;
+    windowManager.qtile = {
+      enable = true;
+      extraPackages = python3Packages: with python3Packages; [
+        qtile-extras
+      ];
+    };
     xkb.layout = "fr";
     xkb.variant = "";
     autoRepeatDelay = 200;
@@ -73,13 +78,14 @@
 
   # Allowing Unfree apps
   nixpkgs.config.allowUnfree = true;
-
+  
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.yzd = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
+  # Firefox
   programs.firefox.enable = true;
 
   # List packages installed in system profile.
@@ -115,6 +121,7 @@
     luajit
     valgrind
     llvmPackages.libcxxStdenv
+    bear
     # Neovim
     tree-sitter
     tree-sitter-grammars.tree-sitter-c
@@ -135,6 +142,8 @@
     # Bluetooth
     bluetui
     unzip
+    # AppImages
+    appimage-run
   ];
 
   # Fonts
@@ -171,6 +180,55 @@
   
   # Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Power management
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "powersave"; # Available : powersave or performance
+  };
+
+  # Steam
+  hardware.opengl.enable = true;
+
+  hardware.pulseaudio.support32Bit = true;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
+  # Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        # Shows battery charge of connected devices on supported
+        # Bluetooth adapters. Defaults to 'false'.
+        Experimental = true;
+        # When enabled other devices can connect faster to us, however
+        # the tradeoff is increased power consumption. Defaults to
+        # 'false'.
+        FastConnectable = true;
+      };
+      Policy = {
+        # Enable all controllers when they are found. This includes
+        # adapters present on start as well as adapters that are plugged
+        # in later on. Defaults to 'true'.
+        AutoEnable = true;
+      };
+    };
+  };
+
+  services.blueman.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

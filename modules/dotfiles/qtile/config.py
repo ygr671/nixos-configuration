@@ -29,6 +29,7 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from widgets.pipewire_volume import PipewireVolume
+
 import subprocess
 
 # Functions for sound management
@@ -134,7 +135,7 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     # Apps key bindings
-    Key([mod], "b", lazy.spawn("firefox --new-window"), desc="Spawn Firefox"),
+    Key([mod], "b", lazy.spawn("firefox"), desc="Spawn Firefox"),
     Key([mod], "f", lazy.spawn("pcmanfm"), desc="Spawn file manager"),
     Key([mod], "d", lazy.spawn("rofi -show drun"), desc="Spawn app launcher"),
     Key([mod], "s", lazy.spawn("flameshot gui"), desc="Spawn screenshot app"),
@@ -173,33 +174,44 @@ for vt in range(1, 8):
             desc=f"Switch to VT{vt}",
         )
     )
-
-
+    
 groups = [Group(i) for i in "123456789"]
 
-for i in groups:
-    keys.extend(
-        [
-            # mod + group number = switch to group
-            Key(
-                [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc=f"Switch to group {i.name}",
-            ),
-            # mod + shift + group number = switch to & move focused window to group
-            Key(
-                [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc=f"Switch to & move focused window to group {i.name}",
-            ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod + shift + group number = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
-        ]
-    )
+keys.extend(
+    [
+        # mod + number key (for AZERTY keyboards only) number = switch to group
+        Key([mod], "ampersand", lazy.group["1"].toscreen()),
+        Key([mod], "eacute", lazy.group["2"].toscreen()),
+        Key([mod], "quotedbl", lazy.group["3"].toscreen()),
+        Key([mod], "apostrophe", lazy.group["4"].toscreen()),
+        Key([mod], "parenleft", lazy.group["5"].toscreen()),
+        Key([mod], "minus", lazy.group["6"].toscreen()),
+        Key([mod], "egrave", lazy.group["7"].toscreen()),
+        Key([mod], "underscore", lazy.group["8"].toscreen()),
+        Key([mod], "ccedilla", lazy.group["9"].toscreen()),
+        # mod + shift + group number = switch to & move focused window to group
+        Key(
+            [mod, "shift"],
+            "ampersand",
+            lazy.window.togroup("1", switch_group=True)
+        ),
+        Key(
+            [mod, "shift"],
+            "eacute",
+            lazy.window.togroup("2", switch_group=True)
+        ),
+        #Key(
+         #   [mod, "shift"],
+          #  i.name,
+           # lazy.window.togroup(i.name, switch_group=True),
+           # desc=f"Switch to & move focused window to group {i.name}",
+           #),
+        # Or, use below if you prefer not to switch to that group.
+        # # mod + shift + group number = move focused window to group
+        # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+        #     desc="move focused window to group {}".format(i.name)),
+    ]
+)
 
 layouts = [
     layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
@@ -257,11 +269,75 @@ screens = [
                     foreground="#666666",
                 ),
                 widget.Backlight(
-                    backlight_name="amdgpu_bl1",
-                    brightness_file="brightness",
-                    max_brightness_file="max_brightness",
-                    format="☀ {percent:2.0%}",
+                   backlight_name="amdgpu_bl1",
+                   brightness_file="brightness",
+                   max_brightness_file="max_brightness",
+                   format="☀ {percent:2.0%}",
                 ),
+#                widget.BrightnessControl(),
+                widget.Sep(
+                    linewidth=1,
+                    padding=10,
+                    foreground="#666666",
+                ),
+                # widget.BatteryIcon(),
+                widget.Battery(
+                    update_interval=1,
+                    notify_below=0.2,
+                ),
+                widget.Sep(
+                    linewidth=1,
+                    padding=10,
+                    foreground="#666666",
+                ),
+                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+            ],
+            24,
+            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+        ),
+        # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
+        # By default we handle these events delayed to already improve performance, however your system might still be struggling
+        # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
+        # x11_drag_polling_rate = 60,
+    ),
+    Screen(
+        bottom=bar.Bar(
+            [
+                widget.CurrentLayout(),
+                widget.GroupBox(),
+                widget.Prompt(),
+                widget.WindowName(),
+                widget.Chord(
+                    chords_colors={
+                        "launch": ("#ff0000", "#ffffff"),
+                    },
+                    name_transform=lambda name: name.upper(),
+                ),
+                # widget.StatusNotifier(),
+                widget.Systray(),
+                widget.Sep(
+                    linewidth=1,
+                    padding=10,
+                    foreground="#666666",
+                ),
+                PipewireVolume(
+                    format="  {volume}%",
+                    update_interval=0.1,
+                    foreground="#ffffff",
+                ),
+                widget.Sep(
+                    linewidth=1,
+                    padding=10,
+                    foreground="#666666",
+                ),
+                widget.Backlight(
+                   backlight_name="amdgpu_bl1",
+                   brightness_file="brightness",
+                   max_brightness_file="max_brightness",
+                   format="☀ {percent:2.0%}",
+                ),
+#                widget.BrightnessControl(),
                 widget.Sep(
                     linewidth=1,
                     padding=10,

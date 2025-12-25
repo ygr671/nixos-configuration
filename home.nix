@@ -39,6 +39,12 @@
     # Libreoffice
     libreoffice
     # LSPs
+    phpactor
+    # Browser
+    librewolf
+    # Notifications
+    dunst
+    libnotify
  ];
   
   # Bash
@@ -156,6 +162,11 @@
   programs.rofi = {
     enable = true;
     theme = "Arc-Dark";
+  };
+  
+  # Dunst
+  services.dunst = {
+    enable = true;
   };
 
 }
