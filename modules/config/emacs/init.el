@@ -14,7 +14,7 @@
 ;; Set up the visible bell
 (setq visible-bell t)
 
-(set-face-attribute 'default nil :family "JetBrains Mono" :height 140)
+(set-face-attribute 'default nil :family "JetBrains Mono" :height 160)
 
 (load-theme 'wombat)
 

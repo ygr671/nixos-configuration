@@ -22,7 +22,7 @@ in
     fastfetch
     flameshot # Screenshot tool
     vscodium
-    jetbrains.idea-community
+    jetbrains.idea-oss
     godotPackages_4_5.godot
     sqlitebrowser
     graphviz-nox
