@@ -16,7 +16,7 @@
 
 (set-face-attribute 'default nil :family "JetBrains Mono" :height 160)
 
-(load-theme 'wombat)
+(load-theme 'modus-vivendi)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -25,14 +25,26 @@
 
 (setq package-enable-at-startup nil) ; important pour Home Manager
 
-;; Eglot + Nix LSP
+;; Eglot
 
 (require 'eglot)
+
 (add-hook 'c-mode-hook #'eglot-ensure)
 (add-hook 'c++-mode-hook #'eglot-ensure)
 (add-hook 'nix-mode-hook #'eglot-ensure)
+(add-hook 'go-mode-hook #'eglot-ensure)
+(add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+(add-hook 'js-mode-hook #'eglot-ensure)   
+(add-hook 'js-ts-mode-hook #'eglot-ensure)
+(add-hook 'rjsx-mode-hook #'eglot-ensure)
 
 (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
+
+(add-to-list 'eglot-server-programs 
+             '((typescript-mode typescript-ts-mode) . ("typescript-language-server" "--stdio")))
+
+(add-to-list 'eglot-server-programs 
+             '((js-mode js-ts-mode rjsx-mode) . ("typescript-language-server" "--stdio")))
 
 ;; use-package (installed via Home Manager)
 
@@ -76,15 +88,12 @@
 ; Swiper
 (use-package swiper)
 
-; Vterm
-(use-package vterm)
-
 ; Org
 (use-package org
   :defer t)
 
 ; Relative line numbers
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type 't)
 (global-display-line-numbers-mode 1)
 
 ; Automatic pairs
@@ -100,4 +109,30 @@
  '(auth-source-save-behavior nil)
  '(package-selected-packages nil))
 
+;; QoL
+(global-visual-line-mode 1)
+
 (custom-set-faces)
+
+;; Web development stuff
+(require 'use-package)
+
+(use-package web-mode
+  :mode (("\\.tsx\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode)
+         ("\\.html\\'" . web-mode))
+  :config
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-enable-auto-quoting nil))
+
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (eglot-ensure))))
+
+;; Associer les extensions TypeScript / TSX
+(add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'"  . js-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))

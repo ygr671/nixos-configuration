@@ -32,6 +32,9 @@ in
     nixpkgs-fmt
     # Node
     nodejs
+    # Typescript
+    nodePackages.typescript
+    nodePackages.typescript-language-server
     # Look and feel
     xdotool
     # GPG
@@ -52,6 +55,16 @@ in
     # Notifications
     dunst
     libnotify
+    # E-mail client
+    thunderbird
+    # Spotify
+    spotify
+    # OpenArena
+    openarena
+    # Android Studio
+    android-studio
+    android-tools
+    # TS
   ];
 
   programs.bash = {
@@ -114,6 +127,8 @@ in
         org
         magit
         elcord
+        go-mode
+        web-mode
       ];
   };
 

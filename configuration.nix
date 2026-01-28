@@ -42,7 +42,17 @@
   # Wallpaper
   environment.etc."wallpapers/red-moon.png".source = ./data/wallpapers/red-moon.png;
 
-  services.displayManager.ly.enable = true;
+  # Display manager
+  services.displayManager.ly = {
+    enable = true;
+    settings = {
+      clock = true;
+      save = true;
+      
+    };
+  };
+
+  # X server
   services.xserver = {
     enable = true;
     windowManager.qtile = {
@@ -62,15 +72,21 @@
       xset s 300 300
       # Sleeping
       xset dpms 600 600 600
-
     '';
+    desktopManager.xfce = {
+      enable = true;
+    };
   };
+
+  # Manpages
+  documentation.man.enable = true;
 
   # Compositor (picom) configuration
   services.picom = {
     enable = true;
     backend = "glx";
     fade = true;
+    fadeDelta = 5;
     vSync = true;
   };
 
@@ -86,7 +102,11 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.yzd = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user.
+      "libvirtd"
+      "kvm"
+    ]; 
   };
 
   # Firefox
@@ -95,9 +115,7 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-    neovim # Text editor
     emacs
     alacritty # Terminal emulator
     btop
@@ -110,7 +128,6 @@
     pfetch
     tmux # Terminal multiplexer
     ly # TUI display manager
-    lyx # Latex document processor
     xclip # Clipboard
     # C/C++
     gcc
@@ -126,7 +143,19 @@
     valgrind
     llvmPackages.libcxxStdenv
     bear
-    ncurses
+    lldb
+    # LLVM Clang
+    llvm
+    clang
+    lld
+    gnumake
+    # Nasm
+    nasm
+    # Qemu
+    qemu
+    # Android studio stuff
+    virt-manager
+    libvirt
     # Neovim
     tree-sitter
     tree-sitter-grammars.tree-sitter-c
@@ -149,6 +178,17 @@
     unzip
     # AppImages
     appimage-run
+    # Golang
+    go
+    gopls
+    # Manpages
+    man-pages
+    man-pages-posix
+    # Bun & TS
+    bun
+    nodePackages.prisma
+    # Postman
+    postman
   ];
 
   # Fonts
@@ -195,24 +235,6 @@
     cpuFreqGovernor = "powersave"; # Available : powersave or performance
   };
 
-  # Steam
-  hardware.opengl.enable = true;
-
-  hardware.pulseaudio.support32Bit = true;
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-  };
   # Bluetooth
   hardware.bluetooth = {
     enable = true;
@@ -237,6 +259,11 @@
   };
 
   services.blueman.enable = true;
+
+  # Android Studio
+  virtualisation.libvirtd.enable = true;
+
+  programs.dconf.enable = true; # utile pour Android Studio
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
